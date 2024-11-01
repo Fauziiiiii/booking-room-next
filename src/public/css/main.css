@@ -1,0 +1,33 @@
+.header-user {
+    height: auto;
+    /* position: relative;
+    z-index: 1; */
+}
+
+.mobile-filter-card {
+    display: none;
+    background: white;
+}
+
+@media (max-width: 767px) {
+    .header-user {
+        padding-bottom: 0;
+    }
+    
+    .mobile-filter-card {
+        display: block;
+        padding: 1.5rem;
+        margin-top: -20px;
+        position: relative;
+        z-index: 2;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+}
+
+@media (min-width: 768px) {
+    .header-user {
+        padding-bottom: 4rem;
+    }
+}
