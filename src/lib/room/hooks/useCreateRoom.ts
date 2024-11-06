@@ -8,7 +8,7 @@ export const useCreateRoom = () => {
     return useMutation({
         mutationFn: (newRoom: CreateRoomDTO) => createRoom(newRoom),
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: ["get-all-room-by-floorId"]})
+            queryClient.invalidateQueries({queryKey: ["get-all-room"]})
             // return toast.success("Succes create a new room")
         },
         onError: (err) => {

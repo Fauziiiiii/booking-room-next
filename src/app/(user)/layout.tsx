@@ -12,9 +12,13 @@ export default function UserLayout({
             <UserHeader/>
 
             {/* Main Content */}
-            <main className="flex flex-col justify-center items-center mx-auto w-full max-w-screen-xl mt-8 md:mt-20 mb-8 px-4">
+            <main className="flex flex-col justify-center items-center mx-auto w-full max-w-screen-xl mt-8 md:mt-20 mb-8 px-5">
                 {children}
             </main>
+
+            <footer className="py-4 text-center text-sm text-gray-500">
+            &copy; 2024 UzzCorp. All rights reserved.
+        </footer>
         </div>
     );
 }

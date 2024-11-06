@@ -9,6 +9,8 @@ import DrawerDialogDemo from '@/components/ui/drawer-dialog-responsive'
 import DatePickerDemo from '@/components/ui/date-picker'
 import FilterCard from '@/components/users/home/filter-card'
 import "@/public/css/main.css"
+import { LuUsers } from "react-icons/lu";
+import Link from 'next/link'
 
 export default function UserHeader() {
     const [scrolled, setScrolled] = useState(false);
@@ -104,9 +106,9 @@ export default function UserHeader() {
                                 `}
                             >
                                 {['Home', 'Bookings', 'Chat', 'Account'].map((item) => (
-                                    <a 
+                                    <Link
                                         key={item} 
-                                        href="#" 
+                                        href="/home" 
                                         className={`
                                             text-md 
                                             font-semibold 
@@ -117,7 +119,7 @@ export default function UserHeader() {
                                         `}
                                     >
                                         {item}
-                                    </a>
+                                    </Link>
                                 ))}
                             </nav>
                             <NavUser />
@@ -138,45 +140,37 @@ export default function UserHeader() {
                     </div>
 
                     <div className="hidden md:block bg-white rounded-lg shadow-lg p-9 max-w-sm w-full ml-4">
-                        <form className="flex flex-col gap-4">
-                            <InputWithIcon
-                                icon={FiSearch}
-                                placeholder="Mau meeting dimana?"
-                                className="w-full"
-                            />
-                            <DatePickerDemo />
-                            <InputWithIcon
-                                icon={FiUserPlus}
-                                placeholder="Number of Attendees"
-                                type="number"
-                            />
-                            <DrawerDialogDemo />
-                        </form>
+                        <FilterCardForm/>
                     </div>
                 </div>
             </header>
 
             {/* Mobile Filter Card - Only shown below 768px */}
             <div className="mobile-filter-card p-6 pb-4 w-full">
-                <form className="flex flex-col gap-4">
-                    <InputWithIcon
-                        icon={FiSearch}
-                        placeholder="Search..."
-                        className="w-full"
-                    />
-                    <DatePickerDemo />
-                    <InputWithIcon
-                        icon={FiUserPlus}
-                        placeholder="Number of Attendees"
-                        type="number"
-                    />
-                    <DrawerDialogDemo />
-                </form>
+                <FilterCardForm/>
             </div>
         </>
     )
 }
 
+const FilterCardForm = () => {
+    return(
+        <form className="flex flex-col gap-4">
+            <InputWithIcon
+                icon={FiSearch}
+                placeholder="Search..."
+                className="w-full"
+            />
+            <DatePickerDemo />
+            <InputWithIcon
+                icon={FiUserPlus}
+                placeholder="Number of Attendees"
+                type="number"
+            />
+            <DrawerDialogDemo />
+        </form>
+    );
+}
 
 function FixedNavbarContainer() {
     return (
