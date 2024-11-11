@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client"
 
 import React, { useEffect, useState } from 'react'
@@ -7,10 +8,7 @@ import { InputWithIcon } from '@/components/ui/input-with-icon'
 import { FiSearch, FiUserPlus } from "react-icons/fi";
 import DrawerDialogDemo from '@/components/ui/drawer-dialog-responsive'
 import DatePickerDemo from '@/components/ui/date-picker'
-import FilterCard from '@/components/users/home/filter-card'
 import "@/public/css/main.css"
-import { LuUsers } from "react-icons/lu";
-import Link from 'next/link'
 
 export default function UserHeader() {
     const [scrolled, setScrolled] = useState(false);
@@ -106,7 +104,7 @@ export default function UserHeader() {
                                 `}
                             >
                                 {['Home', 'Bookings', 'Chat', 'Account'].map((item) => (
-                                    <Link
+                                    <a 
                                         key={item} 
                                         href="/home" 
                                         className={`
@@ -119,7 +117,7 @@ export default function UserHeader() {
                                         `}
                                     >
                                         {item}
-                                    </Link>
+                                    </a>
                                 ))}
                             </nav>
                             <NavUser />
@@ -128,7 +126,7 @@ export default function UserHeader() {
                 </div>
                 
                 {/* Title and Filter Card Container */}
-                <div className="relative w-full max-w-screen-xl mx-auto mt-24 px-6 z-10 flex justify-between items-center">
+                <div className="relative w-full max-w-screen-xl mx-auto mt-24 px-6 z-10 flex justify-between items-center mb-12">
                     {/* Judul dan Deskripsi */}
                     <div className="text-left">
                         <h1 className="text-4xl font-bold text-white mb-6">

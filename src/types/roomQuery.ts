@@ -5,6 +5,8 @@ export type RoomQuery = {
     status: string,
     floorId: string,
     floorName: string,
+    buildingId: string,
+    buildingName: string,
     createdAt: string,
     updatedAt: string
 }

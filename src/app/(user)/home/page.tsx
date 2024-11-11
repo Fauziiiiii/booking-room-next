@@ -91,7 +91,6 @@
 
 
 import { CardMainHeader } from '@/components/users/home/card-main-header'
-import { PopularRoomsSection } from '@/components/users/home/popular-rooms-section'
 import { RoomsSection } from '@/components/users/home/rooms-section'
 import React from 'react'
 
@@ -100,6 +99,7 @@ export default function UserHomePage() {
     <div className="space-y-8 w-full">
       <CardMainHeader/>
       <RoomsSection/>
+      {/* <RoomsSection/> */}
       {/* <PopularRoomsSection/> */}
     </div>
   )

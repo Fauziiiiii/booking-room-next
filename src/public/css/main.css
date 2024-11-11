@@ -26,8 +26,11 @@
     }
 }
 
-@media (min-width: 768px) {
-    .header-user {
-        padding-bottom: 4rem;
-    }
+.sticky-background {
+    background-color: white;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sticky-shadow {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
