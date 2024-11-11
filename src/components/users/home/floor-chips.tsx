@@ -1,5 +1,4 @@
 import { useGetAllFloorByIdBuilding } from "@/lib/building/hooks/useGetAllFloorByIdBuilding";
-import { useGetAllFloor } from "@/lib/floor/hooks/useGetAllFloor";
 
 interface FloorChipsProps {
     selectedFloor: string;

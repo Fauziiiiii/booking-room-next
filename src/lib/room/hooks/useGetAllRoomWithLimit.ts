@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { getByIdRoom } from "../actions/get-by-id-room";
 import { getAllRoomWithLimit } from "../actions/get-all-room-with-limit";
 
 export const useGetAllRoomWithLimit = (limit: number) => {

@@ -1,8 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
-import { getAllRoomByIdFloor } from "@/lib/room/actions/get-all-room-by-id-floor";
 import LoadingUserHomePage from "@/app/(user)/_component/loading";
 import RoomCard from "./room-card-home";
-import { useGetAllRoomByIdFloor, useGetAllRoomByIdFloorWithLimit } from "@/lib/room/hooks/useGetAllRoomByIdFloor";
+import { useGetAllRoomByIdFloorWithLimit } from "@/lib/room/hooks/useGetAllRoomByIdFloor";
 import Link from "next/link";
 
 interface RoomListProps {
@@ -30,7 +28,7 @@ export function RoomList({ floor }: RoomListProps) {
             </div> */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {rooms?.map((room) => (
-                    <RoomCard key={room.id} room={room} isVertical={true} />
+                    <RoomCard key={room.floorId} room={room} isVertical={true} />
                 ))}
             </div>
             <div className="flex justify-center mt-4">

@@ -10,7 +10,7 @@ interface InputWithIconProps extends InputProps {
 const InputWithIcon = React.forwardRef<HTMLInputElement, InputWithIconProps>(
   ({ icon: Icon, className, ...props }, ref) => {
     return (
-      <div className="relative flex items-center">
+      <div className="relative flex items-center h-12">
         <div className="absolute left-3 text-muted-foreground">
           <Icon size={18} />
         </div>

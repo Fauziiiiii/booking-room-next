@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import type { Metadata } from "next";
 import "./globals.css";
 import { DM_Sans, Inter, Nunito_Sans } from 'next/font/google'
@@ -16,12 +17,12 @@ const dmSans = DM_Sans({
   weight: ['400', '500', '700'],
 })
 
-// const inter = Inter({
-//   subsets: ['latin'],
-//   display: 'swap',
-//   // Anda bisa menambahkan weight yang dibutuhkan
-//   weight: ['400', '500', '600', '700'],
-// })
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  // Anda bisa menambahkan weight yang dibutuhkan
+  weight: ['400', '500', '600', '700'],
+})
 
 export const metadata: Metadata = {
   title: "Create Next App",
