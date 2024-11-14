@@ -368,8 +368,8 @@ export default function UserDetailRoomInformation() {
           {/* Carousel Layout Mobile */}
           <div className="flex overflow-x-scroll no-scrollbar space-x-4 px-4">
             {rooms?.map((room) => (
-              <div className="max-w-[207] md:max-w-[220px] flex-shrink-0 mb-4">
-                <UserDetailRoomCard key={room.floorId} room={room} isVertical={true} />
+              <div key={room.floorId} className="max-w-[207] md:max-w-[220px] flex-shrink-0 mb-4">
+                <UserDetailRoomCard room={room} isVertical={true} />
               </div>
             ))}
           </div>

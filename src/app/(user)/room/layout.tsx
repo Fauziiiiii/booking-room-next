@@ -30,7 +30,7 @@
 
 
 import * as React from "react";
-import UserHeader from "./_components/user-header";
+import UserRoomHeader from "./_components/user-header";
 
 export default function UserRoomLayout({
     children,
@@ -40,7 +40,7 @@ export default function UserRoomLayout({
     return (
         <div className="relative min-h-screen flex flex-col">
             {/* Header */}
-            <UserHeader/>
+            <UserRoomHeader/>
 
             {/* Main Content */}
             {children}

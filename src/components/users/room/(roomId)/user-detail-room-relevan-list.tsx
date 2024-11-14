@@ -19,7 +19,7 @@ export default function RoomRelevanList() {
                 <div className="flex overflow-x-scroll no-scrollbar space-x-4 px-4">
                     {rooms?.map((room) => (
                         <div key={room.floorId} className="max-w-[207] md:max-w-[220px] flex-shrink-0 mb-4">
-                        <UserDetailRoomCard room={room} isVertical={true} />
+                            <UserDetailRoomCard room={room} isVertical={true} />
                         </div>
                     ))}
                 </div>

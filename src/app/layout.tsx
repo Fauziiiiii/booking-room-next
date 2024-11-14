@@ -41,7 +41,7 @@ export default function RootLayout({
       >
         <TanstackProvider>
           {children}
-          <Sonner richColors/>
+          <Sonner richColors position="top-center"/>
         </TanstackProvider>
       </body>
     </html>

@@ -23,7 +23,6 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
-import { useCreateUser } from "@/lib/users/hooks/useCreateUser";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { useCreateRoom } from "@/lib/room/hooks/useCreateRoom";
