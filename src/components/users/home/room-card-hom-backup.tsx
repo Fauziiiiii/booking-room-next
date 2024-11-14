@@ -3,7 +3,7 @@
 import Image from "next/image";
 import React from "react";
 import listRoomImage from  "@/public/img/list-room-1.jpg"
-import { AirVent, Coffee, Phone, Projector, Users, Wifi } from "lucide-react";
+import { Users } from "lucide-react";
 import AmmenitiesIcon from "./ammenities-icon-tooltip";
 
 export default function RoomCard({ room, isVertical}:  { room: any, isVertical: boolean }) {
