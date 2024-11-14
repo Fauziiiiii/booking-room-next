@@ -6,7 +6,7 @@ import { Floor } from "@/types/floor";
 
 export const getAllFloorByIdBuilding = async (idBuilding: string): Promise<Floor[]> => {
     try {
-        await new Promise(resolve => setTimeout(resolve, 1500));
+        // await new Promise(resolve => setTimeout(resolve, 1500));
         const result = await baseApi.get(`/api/buildings/${idBuilding}/floors`);
         return result.data.data;
     } catch (e) {

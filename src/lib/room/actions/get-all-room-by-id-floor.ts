@@ -16,7 +16,6 @@ export const getAllRoomByIdFloor = async (idFloor: string): Promise<RoomQuery[]>
 
 export const getAllRoomByIdFloorWithLimit = async (idFloor: string, limit?: number): Promise<RoomQuery[]> => {
     try {
-        await new Promise(resolve => setTimeout(resolve, 1500));
         const result = await baseApi.get(`/api/floors/${idFloor}/rooms?limit=${limit}`);
         return result.data.data;
     } catch (e) {

@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import React from 'react';
 import { LuSearch, LuArrowLeft } from 'react-icons/lu';
 
 export default function UserRoomCardSearch() {
@@ -57,7 +56,7 @@ export default function UserRoomCardSearch() {
                         className="flex items-center gap-1 px-3 py-2 bg-[#e8ebef] text-[#1e3a5f] rounded-lg"
                         onClick={() => console.log('Open drawer')}
                     >
-                        <span className="text-sm font-semibold">Change</span>
+                        <span className="text-xs font-semibold">Change</span>
                     </button>
                 </div>
             </div>

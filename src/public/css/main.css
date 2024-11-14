@@ -34,3 +34,32 @@
 .sticky-shadow {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+.animation-text-header-user {
+    border-right: 4px solid;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    /* position: relative;
+    width: fit-content;
+    border-right: 4px solid #1e3a5f;
+    padding-right: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    animation: typing 3s steps(40) 1s 1 normal both,
+             cursor 750ms steps(40) infinite normal; */
+}
+
+@keyframes cursor {
+    from { 
+        border-right-color: #1e3a5f; 
+    }
+    to { 
+        border-right-color: transparent; 
+    }
+}
+
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100%;}
+}

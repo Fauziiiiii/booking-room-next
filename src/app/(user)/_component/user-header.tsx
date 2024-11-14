@@ -52,13 +52,6 @@ export default function UserHeader() {
                     }}
                     className="absolute inset-0 z-0"
                 >
-                    <div
-                        style={{
-                            backgroundColor: "rgba(30, 58, 95, 0.7)",
-                            height: "100%",
-                            width: "100%",
-                        }}
-                    />
                 </div>
                 
                 {/* Navbar Container */}
@@ -130,7 +123,7 @@ export default function UserHeader() {
                     {/* Judul dan Deskripsi */}
                     <div className="text-left">
                         <h1 className="text-4xl font-bold text-white mb-6">
-                            Discover Your Ideal Meeting Space
+                            Discover Your Ideal <span className='animation-text-header-user'>Meeting Space</span>
                         </h1>
                         <p className="text-lg text-teal-100 mb-8">
                             Find and book rooms that suit your needs, in the best locations.
@@ -153,7 +146,7 @@ export default function UserHeader() {
 
 const FilterCardForm = () => {
     return(
-        <form className="flex flex-col gap-4">
+        <form className="flex flex-col gap-2">
             <InputWithIcon
                 icon={FiSearch}
                 placeholder="Search..."
