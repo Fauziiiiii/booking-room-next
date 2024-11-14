@@ -7,9 +7,9 @@ export default function UserRoomLayout({
 }) {
     return (
         <div className="w-full h-full">
-            <main className="flex flex-col w-full mx-auto mb-4">
+            <div className="flex flex-col w-full mx-auto mb-4">
                 {children}
-            </main>
+            </div>
         </div>
     );
 }

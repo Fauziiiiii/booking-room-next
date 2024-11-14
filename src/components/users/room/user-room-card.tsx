@@ -8,7 +8,7 @@ import Link from 'next/link'
 
 export default function UserRoomCard({ room, link }: any) {
     return (
-        <Link href={link} target='_blank'>
+        <Link href={link}>
             <div className="
                 bg-white rounded-lg shadow-md p-2 transition-all duration-300 ease-in-out
                 flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0 border border-gray-300 hover:border-[#1E3A5F]

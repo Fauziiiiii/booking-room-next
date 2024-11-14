@@ -13,7 +13,7 @@ export default function RoomCard({ room, isVertical}:  { room: any, isVertical: 
     return (
         <div className={`bg-white rounded-lg shadow-md p-4 transition-all duration-300 ease-in-out 
             flex flex-col space-y-4
-            hover:border-[#1E3A5F] hover:shadow-lg hover:scale-105`}>
+            hover:border-[#1E3A5F] hover:shadow-lg`}>
             <div className="w-full relative">
                 <Image 
                     src={listRoomImage} 
