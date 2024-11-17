@@ -7,3 +7,11 @@ export const useGetAllUser = () => {
         queryFn: () => getAllUser()
     })
 }
+
+export const useGetAllUserForBooking = (open: boolean) => {
+    return useQuery({
+        queryKey: ["get-all-user"],
+        queryFn: () => getAllUser(),
+        enabled: open
+    })
+}
