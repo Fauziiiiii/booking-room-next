@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// Right Side Card Component
 import React from 'react';
 import listRoomImage from  "@/public/img/list-room-1.jpg"
 import Image from 'next/image';
@@ -8,12 +7,12 @@ const BookingSummaryCard = ({ roomId, floorId, bookingDate, startTime, endTime }
     return (
         <div className='sticky top-6'>
             <div className="mb-4">
-                <h2 className="text-2xl font-semibold">Booking Summary</h2>
+                <h2 className="text-2xl font-semibold">Your Order</h2>
             </div>
-            <div className="bg-white rounded-xl shadow-md p-6 h-fit">
-                <div className="grid grid-cols-[auto_1fr] gap-4 items-center">
-                <div className="rounded-lg">
-                    <Image src={listRoomImage} alt="Room Thumbnail" className="w-[100px] h-[100px] rounded-lg" />
+            <div className="sticky top-6 bg-white rounded-xl shadow-md p-6 h-fit">
+                <div className="flex flex-col gap-4 items-center">
+                <div className="rounded-lg w-full">
+                    <Image src={listRoomImage} alt="Room Thumbnail" className="rounded-lg" />
                 </div>
                 <div>
                     <p><strong>Room:</strong> Example Room {roomId}</p>
