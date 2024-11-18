@@ -40,7 +40,7 @@ export default function UserRoomHeader() {
                                     duration-500
                                 `}
                             >
-                                {['Home', 'Bookings', 'Chat', 'Account'].map((item) => (
+                                {['Home', 'Your Orders', 'Message'].map((item) => (
                                     <Link
                                         key={item} 
                                         href="/home" 

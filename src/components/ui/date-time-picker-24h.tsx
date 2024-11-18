@@ -101,6 +101,7 @@ export function DatePickerForm() {
                       head_row: "",
                       row: "mt-2",
                     }}
+                    numberOfMonths={2}
                   />
                 </FormControl>
                 <FormDescription>
