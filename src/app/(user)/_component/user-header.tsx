@@ -9,6 +9,9 @@ import { FiSearch, FiUserPlus } from "react-icons/fi";
 import DrawerDialogDemo from '@/components/ui/drawer-dialog-responsive'
 import DatePickerDemo from '@/components/ui/date-picker'
 import "@/public/css/main.css"
+import Image from 'next/image'
+import { Mail } from 'lucide-react'
+import FilterCardForm from './filter-card-form'
 
 export default function UserHeader() {
     const [scrolled, setScrolled] = useState(false);
@@ -43,15 +46,15 @@ export default function UserHeader() {
         <>
             <header className="header-user relative w-full">
                 {/* Background Image */}
-                <div
-                    style={{
-                        backgroundImage: `url(${meetRoom1.src})`,
-                        backgroundSize: "cover",
-                        backgroundPosition: "center",
-                        height: "auto",
-                    }}
-                    className="absolute inset-0 z-0"
-                >
+                <div className="absolute inset-0 z-0">
+                    <Image
+                        src={meetRoom1}
+                        alt="Meeting Room Background"
+                        layout="fill"
+                        objectFit="cover"
+                        objectPosition="center"
+                        priority
+                    />
                 </div>
                 
                 {/* Navbar Container */}
@@ -96,7 +99,7 @@ export default function UserHeader() {
                                     duration-500
                                 `}
                             >
-                                {['Home', 'Bookings', 'Chat', 'Account'].map((item) => (
+                                {['Home', 'Your Orders'].map((item) => (
                                     <a 
                                         key={item} 
                                         href="/home" 
@@ -112,6 +115,7 @@ export default function UserHeader() {
                                         {item}
                                     </a>
                                 ))}
+                                <Mail size={23} className='items-center text-white hover:text-teal-600 transition-colors duration-300'/>
                             </nav>
                             <NavUser />
                         </div>
@@ -122,10 +126,10 @@ export default function UserHeader() {
                 <div className="relative w-full max-w-screen-xl mx-auto mt-24 px-6 z-10 flex justify-between items-center mb-12">
                     {/* Judul dan Deskripsi */}
                     <div className="text-left">
-                        <h1 className="text-4xl font-bold text-white mb-6">
-                            Discover Your Ideal <span className='animation-text-header-user'>Meeting Space</span>
+                        <h1 className="text-3xl md:text-5xl font-bold text-white mb-6">
+                            Discover Your Ideal Meeting Space
                         </h1>
-                        <p className="text-lg text-teal-100 mb-8">
+                        <p className="text-md md:text-xl text-teal-100 mb-8">
                             Find and book rooms that suit your needs, in the best locations.
                         </p>
                     </div>
@@ -144,7 +148,7 @@ export default function UserHeader() {
     )
 }
 
-const FilterCardForm = () => {
+const FilterCardFormk = () => {
     return(
         <form className="flex flex-col gap-2">
             <InputWithIcon

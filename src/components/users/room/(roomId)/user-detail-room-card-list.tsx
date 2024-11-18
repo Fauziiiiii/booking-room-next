@@ -33,7 +33,6 @@ export default function UserDetailRoomCard({ room, isVertical}:  { room: any, is
             {/* Detail Ruangan di bawah gambar */}
             <div className="w-full flex flex-col justify-between space-y-2 p-4">
                 <div>
-                    <p></p>
                     <h2 className="text- font-semibold text-gray-800 whitespace-nowrap overflow-hidden text-ellipsis">{room.name}</h2>
                     <p className="text-xs text-gray-500 whitespace-nowrap overflow-hidden text-ellipsis flex gap-x-1 items-center mb-[2px]">
                         <Building2 size={12}/>
@@ -58,11 +57,11 @@ export default function UserDetailRoomCard({ room, isVertical}:  { room: any, is
     );
 }
 
-function AmmenitiesIconRelevanRoom() {
+export const AmmenitiesIconRelevanRoom = () => {
     return (
         <>
-            <TooltipProvider>
-                <Tooltip>
+            <TooltipProvider >
+                <Tooltip delayDuration={0}>
                 <TooltipTrigger asChild>
                     <Wifi width={16} height={16} />
                 </TooltipTrigger>
@@ -72,7 +71,7 @@ function AmmenitiesIconRelevanRoom() {
                 </Tooltip>
             </TooltipProvider>
             <TooltipProvider>
-                <Tooltip>
+                <Tooltip delayDuration={0}>
                 <TooltipTrigger asChild>
                     <AirVent width={16} height={16} />
                 </TooltipTrigger>
@@ -82,7 +81,7 @@ function AmmenitiesIconRelevanRoom() {
                 </Tooltip>
             </TooltipProvider>
             <TooltipProvider>
-                <Tooltip>
+                <Tooltip delayDuration={0}>
                 <TooltipTrigger asChild>
                     <Coffee width={16} height={16} />
                 </TooltipTrigger>
@@ -92,7 +91,7 @@ function AmmenitiesIconRelevanRoom() {
                 </Tooltip>
             </TooltipProvider>
             <TooltipProvider>
-                <Tooltip>
+                <Tooltip delayDuration={0}>
                 <TooltipTrigger asChild>
                     <Projector width={16} height={16} />
                 </TooltipTrigger>
