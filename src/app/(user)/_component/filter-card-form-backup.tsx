@@ -1,19 +1,20 @@
-"use client";
+"use client"
 
 import React, { CSSProperties, useRef, useState } from 'react';
-import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Calendar } from "@/components/ui/calendar";
 import { MapPin, Calendar as CalendarIcon, Users, ChevronLeft, ChevronRight } from "lucide-react";
 import { InputWithIcon } from '@/components/ui/input-with-icon';
 import { FiSearch } from 'react-icons/fi';
+import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { getGlobalSearch } from '@/lib/search/actions/get-global-search';
 import { useDebounce } from '@/hooks/use-debounce';
+import { useRouter } from 'next/navigation';
 
 const CarouselSection = ({ title, items, onSelectItem }: any) => {
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
@@ -73,16 +74,36 @@ const CarouselSection = ({ title, items, onSelectItem }: any) => {
 };
 
 const FilterCardForm = () => {
-  const router = useRouter();
-  const [searchValue, setSearchValue] = useState("South Jakarta");
-  const [searchCategory, setSearchCategory] = useState("city");
+  const [location, setLocation] = useState("South Jakarta");
   const [attendees, setAttendees] = useState("1");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [date, setDate] = React.useState<Date>();
   const [searchTerm, setSearchTerm] = useState('');
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
+  const router = useRouter();
 
-  const formattedDate = date ? date.toISOString().split('T')[0] : '';
+  const formattedDate = date ? date.toISOString().split('T')[0] : 'Select a date';
+
+  const popularSearches = [
+    "Coworking Space Central",
+    "Luxury Meeting Room",
+    "East Jakarta Hall",
+    "Jakarta Selatan Office",
+    "Premium Office Space",
+    "Conference Room CBD",
+    "Meeting Room Tower",
+    "Creative Space Hub",
+  ];
+
+  const recentlySearched = [
+    "Startup HQ South",
+    "Creative Hub North",
+    "Training Room Central",
+    "Business Center East",
+    "Innovation Lab West",
+    "Tech Hub Central",
+    "Workshop Space",
+  ];
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['global-search', debouncedSearchTerm],
@@ -92,39 +113,20 @@ const FilterCardForm = () => {
     refetchOnWindowFocus: false
   });
 
-  const handleSelectItemSearch = (selectedSearch: string, categoryType: string) => {
-    setSearchValue(selectedSearch);
-    setSearchCategory(categoryType.toLowerCase());
+  const handleSelectItemSearch = (selectedLocation: string) => {
+    setLocation(selectedLocation);
     setIsDialogOpen(false);
   };
 
-//   const handleSearch = () => {
-//     const queryParams = new URLSearchParams({
-//       location  : searchValue || '',
-//       attendees: attendees || '',
-//       date: formattedDate || '',
-//     });
+  const handleSearch = () => {
+    const queryParams = new URLSearchParams({
+      location: location || '',
+      attendees: attendees || '',
+      date: formattedDate || '',
+    });
 
-//     router.push(`/room/search?${queryParams.toString()}`);
-//   };
-
-    const handleSearch = () => {
-        const queryParams = new URLSearchParams();
-        
-        if (searchCategory && searchValue) {
-            queryParams.append(searchCategory, searchValue);
-        }
-        
-        if (attendees) {
-            queryParams.append('attendees', attendees);
-        }
-        
-        if (formattedDate) {
-            queryParams.append('date', formattedDate);
-        }
-    
-        router.push(`/room/search?${queryParams.toString()}`);
-    };
+    router.push(`/room/search?${queryParams.toString()}`);
+  };
 
   return (
     <div className="flex flex-col gap-3">
@@ -133,7 +135,7 @@ const FilterCardForm = () => {
           <Button variant="outline" className="w-full h-12 justify-between font-normal text-left bg-gray-50 hover:bg-gray-50">
             <div className="flex items-center gap-2">
               <MapPin className="h-4 w-4 text-gray-500" />
-              <span className="font-semibold text-[#303135]">{searchValue}</span>
+              <span className="font-semibold text-[#303135]">{location}</span>
             </div>
           </Button>
         </DialogTrigger>
@@ -167,23 +169,40 @@ const FilterCardForm = () => {
 
               {data && data.length > 0 && (
                 <div className="mt-2 border rounded-md shadow-sm max-h-60 overflow-y-auto">
-                  {data.map((item: any) => (
-                    <div
-                      key={item.id}
-                      onClick={() => handleSelectItemSearch(item.name, item.type)}
-                      className="flex items-center p-2 hover:bg-gray-100 cursor-pointer"
-                    >
-                      <FiSearch className="mr-3 text-gray-500" size={20} />
-                      <div>
-                        <div className="font-medium">{item.name}</div>
-                        <div className="text-sm text-gray-500">
-                          {item.type} in {item.city}
+                  {data.map((item: any) => {
+                    const Icon = FiSearch;
+                    return (
+                      <div 
+                        key={item.id} 
+                        onClick={() => handleSelectItemSearch(item.name)}
+                        className="flex items-center p-2 hover:bg-gray-100 cursor-pointer"
+                      >
+                        <Icon className="mr-3 text-gray-500" size={20} />
+                        <div>
+                          <div className="font-medium">{item.name}</div>
+                          <div className="text-sm text-gray-500">
+                            {item.type} in {item.city}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               )}
+            </div>
+
+            <div className="px-4">
+                <CarouselSection
+                    title="Recently Searched"
+                    items={recentlySearched}
+                    onSelectItem={handleSelectItemSearch}
+                />
+
+                <CarouselSection
+                    title="Popular Search"
+                    items={popularSearches}
+                    onSelectItem={handleSelectItemSearch}
+                />
             </div>
           </div>
         </DialogContent>
@@ -195,19 +214,28 @@ const FilterCardForm = () => {
             <Button variant="outline" className="flex-1 h-12 justify-between font-normal text-left bg-gray-50 hover:bg-gray-50">
               <div className="flex items-center gap-2">
                 <CalendarIcon className="h-4 w-4 text-gray-500" />
-                <span className="font-semibold text-[#303135]">
-                  {formattedDate || "Select a date"}
-                </span>
+                <span className="font-semibold text-[#303135]">{formattedDate}</span>
               </div>
             </Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className='w-full'>
+            <DialogHeader>
+              <DialogTitle>Choose Dates</DialogTitle>
+            </DialogHeader>
             <Calendar
-              mode="single"
-              selected={date}
-              onSelect={setDate}
-              initialFocus
-              disabled={(date) => date < new Date()}
+                className="h-full w-full flex"
+                classNames={{
+                    months: "flex w-full flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0 flex-1",
+                    month: "space-y-4 w-full flex flex-col",
+                    table: "w-full h-full border-collapse space-y-1",
+                    head_row: "",
+                    row: "mt-2",
+                }} 
+                mode="single" 
+                selected={date} 
+                onSelect={setDate} 
+                initialFocus 
+                disabled={(date) => date < new Date()}
             />
           </DialogContent>
         </Dialog>
@@ -226,20 +254,13 @@ const FilterCardForm = () => {
               <DialogTitle>Number of Attendees</DialogTitle>
             </DialogHeader>
             <div className="py-4">
-              <input
-                type="number"
-                min="1"
-                value={attendees}
-                onChange={(e) => setAttendees(e.target.value)}
-                className="w-full px-4 py-2 border rounded-md"
-              />
             </div>
           </DialogContent>
         </Dialog>
       </div>
 
-      <Button className="h-12 w-full" onClick={handleSearch}>
-        Let&apos;s Search
+      <Button className="w-full h-12 bg-blue-500 hover:bg-blue-600 text-white" onClick={() => handleSearch()}>
+        Let's Search
       </Button>
     </div>
   );

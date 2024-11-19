@@ -3,7 +3,7 @@
 import React from 'react';
 import { Dialog, DialogBackdrop, DialogPanel } from '@headlessui/react';
 // import { DatetimePickerV1 } from '@/components/ui/date-time-picker-24h';
-import { DatePickerForm } from '@/components/ui/date-time-picker-24h';
+import { DatePickerForm } from '@/components/users/room/(roomId)/date-time-picker-24h';
 
 interface RoomBookingDialogProps {
     open: boolean;
