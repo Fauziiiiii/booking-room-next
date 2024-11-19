@@ -55,8 +55,8 @@ export function DatePickerForm() {
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     toast.success(`Selected date: ${format(data.dob, "PPP")}, 
-                   Start Time: ${format(data.startTime, "HH:mm")}, 
-                   End Time: ${format(data.endTime, "HH:mm")}`);
+                  Start Time: ${format(data.startTime, "HH:mm")}, 
+                  End Time: ${format(data.endTime, "HH:mm")}`);
   }
 
   function handleTimeChange(time: string, type: "start" | "end") {
