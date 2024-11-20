@@ -21,6 +21,7 @@ export default function UserRoomCard({ room, link }: any) {
                         width={120} 
                         height={120}
                         className="rounded-lg object-cover w-full h-full hover:blur-[2px] transition-all duration-300"
+                        priority
                         unoptimized
                     />
                     <span className="absolute bottom-2 left-2 bg-gray-800 text-white text-xs font-semibold px-2 py-1 rounded flex items-center">
