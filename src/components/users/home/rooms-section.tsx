@@ -16,7 +16,7 @@ export function RoomsSection() {
         onFloorClick={handleFloorClick} 
       />
       <Suspense fallback={<LoadingUserHomePage />}>
-        <RoomList floor={selectedFloor} />
+        <RoomList key={selectedFloor} floor={selectedFloor} />
       </Suspense>
     </section>
   );

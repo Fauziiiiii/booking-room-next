@@ -19,7 +19,7 @@ const nextConfig = {
         ];
     },
     experimental: {
-        optimizeCss: true,
+        // optimizeCss: true,
         scrollRestoration: true
     }
 };

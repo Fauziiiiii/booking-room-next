@@ -12,66 +12,6 @@ import { useQuery } from '@tanstack/react-query';
 import { getGlobalSearch } from '@/lib/search/actions/get-global-search';
 import { useDebounce } from '@/hooks/use-debounce';
 
-const CarouselSection = ({ title, items, onSelectItem }: any) => {
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-
-  const scroll = (direction: 'left' | 'right') => {
-    if (scrollContainerRef.current) {
-      const scrollAmount = direction === 'left' ? -200 : 200;
-      scrollContainerRef.current.scrollBy({
-        left: scrollAmount,
-        behavior: 'smooth',
-      });
-    }
-  };
-
-  const customStyles: CSSProperties & { [key: string]: any } = {
-    scrollbarWidth: 'none',
-    '-ms-overflow-style': 'none',
-  };
-
-  return (
-    <div className="mb-6">
-      <div className="flex justify-between items-center mb-3">
-        <h3 className="text-lg font-semibold text-gray-700">{title}</h3>
-        <div className="flex gap-2">
-          <Button
-            variant="outline"
-            size="icon"
-            className="h-8 w-8"
-            onClick={() => scroll('left')}
-          >
-            <ChevronLeft className="h-4 w-4" />
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            className="h-8 w-8"
-            onClick={() => scroll('right')}
-          >
-            <ChevronRight className="h-4 w-4" />
-          </Button>
-        </div>
-      </div>
-      <div
-        ref={scrollContainerRef}
-        className="flex gap-3 overflow-x-auto scrollbar-hide scroll-smooth"
-        style={customStyles}
-      >
-        {items.map((item: string, index: React.Key) => (
-          <div
-            key={index}
-            onClick={() => onSelectItem(item)}
-            className="min-w-[200px] flex-shrink-0 bg-gray-100 rounded-md shadow-sm p-3 flex items-center justify-center cursor-pointer hover:bg-gray-200 transition-colors"
-          >
-            <span className="text-sm font-medium text-gray-700">{item}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
-
 const FilterCardForm = () => {
   const router = useRouter();
   const [searchValue, setSearchValue] = useState("South Jakarta");
@@ -82,7 +22,22 @@ const FilterCardForm = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
-  const formattedDate = date ? date.toISOString().split('T')[0] : '';
+  // Format untuk tampilan
+  const formattedDate = date 
+    ? new Intl.DateTimeFormat("id-ID", { 
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+    }).format(date)
+    : "";
+
+  // Format untuk query parameter
+  const formatDateForQuery = (date: Date): string => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['global-search', debouncedSearchTerm],
@@ -98,33 +53,23 @@ const FilterCardForm = () => {
     setIsDialogOpen(false);
   };
 
-//   const handleSearch = () => {
-//     const queryParams = new URLSearchParams({
-//       location  : searchValue || '',
-//       attendees: attendees || '',
-//       date: formattedDate || '',
-//     });
-
-//     router.push(`/room/search?${queryParams.toString()}`);
-//   };
-
-    const handleSearch = () => {
-        const queryParams = new URLSearchParams();
-        
-        if (searchCategory && searchValue) {
-            queryParams.append(searchCategory, searchValue);
-        }
-        
-        if (attendees) {
-            queryParams.append('attendees', attendees);
-        }
-        
-        if (formattedDate) {
-            queryParams.append('date', formattedDate);
-        }
+  const handleSearch = () => {
+    const queryParams = new URLSearchParams();
     
-        router.push(`/room/search?${queryParams.toString()}`);
-    };
+    if (searchCategory && searchValue) {
+      queryParams.append(searchCategory, searchValue);
+    }
+    
+    if (attendees) {
+      queryParams.append('attendees', attendees);
+    }
+    
+    if (date) {
+      queryParams.append('date', formatDateForQuery(date));
+    }
+
+    router.push(`/room/search?${queryParams.toString()}`);
+  };
 
   return (
     <div className="flex flex-col gap-3">
@@ -145,7 +90,6 @@ const FilterCardForm = () => {
           </DialogHeader>
 
           <div className="flex-1 overflow-y-auto">
-            {/* Search Input */}
             <div className="sticky top-0 px-4 pt-2 pb-4 bg-white">
               <InputWithIcon
                 icon={FiSearch}
@@ -196,7 +140,7 @@ const FilterCardForm = () => {
               <div className="flex items-center gap-2">
                 <CalendarIcon className="h-4 w-4 text-gray-500" />
                 <span className="font-semibold text-[#303135]">
-                  {formattedDate || "Select a date"}
+                  {formattedDate || "Select Date"}
                 </span>
               </div>
             </Button>

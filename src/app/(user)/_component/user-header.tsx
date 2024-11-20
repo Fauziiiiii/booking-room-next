@@ -53,7 +53,7 @@ export default function UserHeader() {
                         layout="fill"
                         objectFit="cover"
                         objectPosition="center"
-                        priority
+                        loading='lazy'
                     />
                 </div>
                 
