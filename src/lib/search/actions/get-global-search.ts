@@ -1,7 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server"
 
 import { baseApi } from "@/lib/api/endpoint"
-import { User } from "@/types/user";
 
 export const getGlobalSearch = async (keyword: string): Promise<any[]> => {
     try {

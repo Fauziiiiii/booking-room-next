@@ -13,7 +13,7 @@ export default function UserDetailRoomPage({ params }: { params: { roomId: strin
             {/* Image Gallery */}
             <UserDetailRoomImage/>
 
-            <UserDetailRoomInformation/>
+            <UserDetailRoomInformation roomId={params.roomId}/>
         </div>
     );
 }

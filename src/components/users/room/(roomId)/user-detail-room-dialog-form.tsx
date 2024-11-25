@@ -26,7 +26,7 @@ const RoomBookingDialog: React.FC<RoomBookingDialogProps> = ({ open, onClose }) 
                         <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                             <div className="sm:flex sm:items-start">
                                 <div className="mt-2 sm:w-full">
-                                    <DatePickerForm />
+                                    {/* <DatePickerForm /> */}
                                     {/* <DatetimePickerV1/>  */}
                                 </div>
                             </div>

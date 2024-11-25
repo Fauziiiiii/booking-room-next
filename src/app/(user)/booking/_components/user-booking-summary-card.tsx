@@ -1,3 +1,48 @@
+// /* eslint-disable @typescript-eslint/no-explicit-any */
+// import React from 'react';
+// import listRoomImage from  "@/public/img/list-room-1.jpg"
+// import Image from 'next/image';
+// import { format } from 'date-fns';
+
+// const BookingSummaryCard = ({ roomId, floorId, bookingDate, startTime, endTime }: any) => {
+//   const jancok = new Date(bookingDate)
+//   const formattedDate = jancok?.toLocaleDateString('en-US', {
+//     weekday: 'short',
+//     day: '2-digit',
+//     month: 'short',
+//     year: 'numeric'
+//   }) || ''
+//   // console.log(formattedDate, "card jancok");
+  
+//     return (
+//         <div className='sticky top-6'>
+//             <div className="mb-4">
+//                 <h2 className="text-2xl font-semibold">Your Order</h2>
+//             </div>
+//             <div className="sticky top-6 bg-white rounded-xl shadow-md p-6 h-fit">
+//                 <div className="flex gap-4 ">
+//                   <div className="rounded-lg max-w-24">
+//                       <Image src={listRoomImage} alt="Room Thumbnail" className="rounded-lg" loading='lazy' />
+//                   </div>
+//                   <div>
+//                       <p className='font-semibold text-lg'>Conference Room A</p>
+//                       {/* <p>{bookingDate}</p> */}
+//                       <p>{formattedDate}</p>
+//                       <p>{startTime} - {endTime}</p>
+//                   </div>
+//                 </div>
+//                 <div className="flex gap-4 mt-2">
+//                   <div>
+//                       <p className='font-semibold text-lg'>Conference Room A</p>
+//                   </div>
+//                 </div>
+//             </div>
+//         </div>
+//     );
+//   };
+
+// export default BookingSummaryCard;
+
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
@@ -50,8 +95,8 @@ const BookingSummaryCard = ({
         </div>
 
         {/* Room Details */}
-        <div className="p-4 space-y-3">
-          <div>
+        <div className="p-4 space-y-1">
+          {/* <div> */}
             <h2 className="text-lg font-semibold text-gray-800 whitespace-nowrap overflow-hidden text-ellipsis">
               Tech Valley Creative Hub
             </h2>
@@ -63,12 +108,12 @@ const BookingSummaryCard = ({
               <MapPin size={16} />
               Cakung, Jakarta Timur
             </p>
-          </div>
+          {/* </div> */}
 
-          <div className="flex items-center gap-2 text-gray-500">
+          {/* <div className="flex items-center gap-2 text-gray-500">
             <AmmenitiesIconRelevanRoom />
             <p className="text-sm font-semibold">(+3 amenities)</p>
-          </div>
+          </div> */}
         </div>
 
         {/* Divider */}
