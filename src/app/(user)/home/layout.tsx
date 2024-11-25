@@ -1,5 +1,6 @@
 import * as React from "react";
 import UserHeader from "../_component/user-header";
+import MobileNav from "@/components/users/mobile-nav";
 
 export default function UserLayout({
     children,
@@ -18,7 +19,8 @@ export default function UserLayout({
 
             <footer className="py-4 text-center text-sm text-gray-500">
             &copy; 2024 UzzCorp. All rights reserved.
-        </footer>
+            </footer>
+            <MobileNav/>
         </div>
     );
 }

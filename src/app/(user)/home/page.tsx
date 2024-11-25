@@ -98,8 +98,6 @@ export default function UserHomePage() {
   return (
     <div className="space-y-8 w-full">
       <RoomsSection/>
-      {/* <RoomsSection/> */}
-      {/* <PopularRoomsSection/> */}
     </div>
   )
 }

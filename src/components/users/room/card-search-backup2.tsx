@@ -1,48 +1,65 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import Link from 'next/link';
 import { LuSearch, LuArrowLeft } from 'react-icons/lu';
 import { useRouter, useSearchParams } from 'next/navigation';
 import useRoomFilterStore from '@/lib/store/useRoomFilterStore';
 import { convertToUtcFormat, formatDateForQuery, formatDateToID } from '@/lib/utils/dateUtils';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Calendar } from '@/components/ui/calendar';
 import { useQuery } from '@tanstack/react-query';
 import { useDebounce } from '@/hooks/use-debounce';
 import { getGlobalSearch } from '@/lib/search/actions/get-global-search';
 import { InputWithIcon } from '@/components/ui/input-with-icon';
 import { FiSearch } from 'react-icons/fi';
-import { SearchResult } from '@/types/search';
+import type { SearchResult } from '@/types/search';
+
+interface SearchState {
+  searchTerm: string;
+  searchValue: string | null;
+  dateSearch: Date | undefined;
+  attendeesSearch: string;
+  searchCategory: string;
+  selectedRoomId: string | null;
+  isDialogSearchOpen: boolean;
+}
 
 export default function UserRoomCardSearch() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const {
-    // category,
+    category,
     categoryValue,
-    // date,
+    date,
     attendees,
     setCategory,
     setDate,
     setAttendees,
   } = useRoomFilterStore();
-  const [isDialogSearchOpen, setIsDialogSearchOpen] = React.useState(false);
-  const [searchTerm, setSearchTerm] = React.useState('');
-  const [searchValue, setSearchValue] = React.useState(categoryValue);
-  const [dateSearch, setDateSearch] = React.useState<Date>();
-  const [attendeesSearch, setAttendeesSearch] = React.useState("1");
-  const [searchCategory, setSearchCategory] = React.useState("City");
-  const [selectedRoomId, setSelectedRoomId] = React.useState<string | null>(null);
-  const debouncedSearchTerm = useDebounce(searchTerm, 500);
-  const router = useRouter();
 
-  const formattedDateSearch = dateSearch
-    ? new Intl.DateTimeFormat("id-ID", { 
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric'
-    }).format(dateSearch)
-    : "";
+  // Initialize state with custom hook
+  const [searchState, setSearchState] = React.useState<SearchState>({
+    searchTerm: '',
+    searchValue: categoryValue,
+    dateSearch: undefined,
+    attendeesSearch: '1',
+    searchCategory: 'City',
+    selectedRoomId: null,
+    isDialogSearchOpen: false,
+  });
 
+  const debouncedSearchTerm = useDebounce(searchState.searchTerm, 500);
+
+  // Memoize date formatting
+  const formattedDateSearch = useMemo(() => {
+    if (!searchState.dateSearch) return '';
+    return new Intl.DateTimeFormat("id-ID", { 
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    }).format(searchState.dateSearch);
+  }, [searchState.dateSearch]);
+
+  // Memoize search query
   const { data: searchData, isLoading: isLoadingSearchData, isError: isErrorSearchData } = useQuery({
     queryKey: ['global-search', debouncedSearchTerm],
     queryFn: () => getGlobalSearch(debouncedSearchTerm),
@@ -50,71 +67,120 @@ export default function UserRoomCardSearch() {
     staleTime: 5000,
     refetchOnWindowFocus: false
   });
-  // Identify category and value dynamically
-  const dynamicCategoryMapping = ['room', 'floor', 'building', 'city'];
-  let detectedCategory: string | null = null;
-  let detectedValue: string | null = null;
 
-  for (const key of dynamicCategoryMapping) {
-    const value = searchParams.get(key);
-    if (value) {
-      detectedCategory = key;
-      detectedValue = value;
-      break;
+  // Extract URL parameters
+  const {
+    detectedCategory,
+    detectedValue,
+    attendeesParam,
+    dateParamUtc,
+    formattedDate
+  } = useMemo(() => {
+    const dynamicCategoryMapping = ['room', 'floor', 'building', 'city'];
+    let detectedCategory: string | null = null;
+    let detectedValue: string | null = null;
+
+    for (const key of dynamicCategoryMapping) {
+      const value = searchParams.get(key);
+      if (value) {
+        detectedCategory = key;
+        detectedValue = value;
+        break;
+      }
     }
-  }
 
-  const dateParam = searchParams.get('date');
-  const attendeesParam = searchParams.get('attendees') || '1';
+    const dateParam = searchParams.get('date');
+    const attendeesParam = searchParams.get('attendees') || '1';
+    const dateParamUtc = dateParam ? convertToUtcFormat(dateParam) : '';
+    const formattedDate = dateParam ? formatDateToID(dateParam) : '';
 
-  const dateParamUtc = dateParam ? convertToUtcFormat(dateParam) : '';
-  const formattedDate = dateParam ? formatDateToID(dateParam) : '';
+    return {
+      detectedCategory,
+      detectedValue,
+      dateParam,
+      attendeesParam,
+      dateParamUtc,
+      formattedDate
+    };
+  }, [searchParams]);
 
+  // Update store based on URL parameters
   React.useEffect(() => {
-    // Inisialisasi state filter dari query parameter
-    if (detectedCategory && detectedValue) {
-      setCategory(detectedCategory, detectedValue);
+    if (detectedCategory !== category || detectedValue !== categoryValue) {
+      setCategory(detectedCategory || 'Unknown', detectedValue || 'N/A');
     }
-    if (dateParamUtc) setDate(dateParamUtc);
-    if (attendeesParam) setAttendees(Number(attendeesParam));
-  }, [detectedCategory, detectedValue, dateParamUtc, attendeesParam]);
+    if (dateParamUtc !== date) setDate(dateParamUtc);
+    if (attendeesParam !== attendees?.toString()) setAttendees(Number(attendeesParam));
+  }, [detectedCategory, detectedValue, dateParamUtc, attendeesParam, category, categoryValue, date, attendees, setCategory, setDate, setAttendees]);
 
-  const handleSelectItemSearch = (selectedSearch: string, categoryType: string, roomId?: string) => {
-    setSearchValue(selectedSearch);
-    setSearchCategory(categoryType.toLowerCase());
-    setIsDialogSearchOpen(false);
+  // Handler functions
+  const handleSelectItemSearch = useCallback((
+    selectedSearch: string,
+    categoryType: string,
+    roomId?: string
+  ) => {
+    setSearchState(prev => ({
+      ...prev,
+      searchValue: selectedSearch,
+      searchCategory: categoryType.toLowerCase(),
+      selectedRoomId: roomId || null,
+      isDialogSearchOpen: false
+    }));
+  }, []);
 
-    if (categoryType.toLowerCase() && roomId) {
-      setSelectedRoomId(roomId);
-    } else {
-      setSelectedRoomId(null);
-    }
-  };
-
-  const handleSearch = () => {
+  const handleSearch = useCallback(() => {
     const queryParams = new URLSearchParams();
 
-    if (attendees) {
-      queryParams.append('attendees', attendeesSearch);
+    if (searchState.attendeesSearch) {
+      queryParams.append('attendees', searchState.attendeesSearch);
     }
 
-    if (dateSearch) {
-      queryParams.append('date', formatDateForQuery(dateSearch));
+    if (searchState.dateSearch) {
+      queryParams.append('date', formatDateForQuery(searchState.dateSearch));
     }
 
-    if (searchCategory === 'room' && selectedRoomId) {
-      router.push(`/room/${selectedRoomId}?${queryParams.toString()}`);
-    } else if(searchCategory === "building"){
-      router.push(`/room/search?building=${searchValue}&${queryParams.toString()}`);
-    }
-    else {
-      if (searchCategory && searchValue) {
-        queryParams.append(searchCategory, searchValue);
-      }
-      router.push(`/room/search?${queryParams.toString()}`);
-    }
-  };
+    const baseUrl = '/room';
+    let finalUrl = `${baseUrl}/search?${queryParams.toString()}`;
 
+    if (searchState.searchCategory === 'room' && searchState.selectedRoomId) {
+      finalUrl = `${baseUrl}/${searchState.selectedRoomId}?${queryParams.toString()}`;
+    } else if (searchState.searchCategory === "building") {
+      queryParams.append('building', searchState.searchValue || '');
+      finalUrl = `${baseUrl}/search?${queryParams.toString()}`;
+    } else if (searchState.searchCategory && searchState.searchValue) {
+      queryParams.append(searchState.searchCategory, searchState.searchValue);
+    }
+
+    router.push(finalUrl);
+  }, [router, searchState]);
+
+  const handleDateSelect = useCallback((date: Date | undefined) => {
+    setSearchState(prev => ({
+      ...prev,
+      dateSearch: date
+    }));
+  }, []);
+
+  const handleAttendeesChange = useCallback((value: string) => {
+    setSearchState(prev => ({
+      ...prev,
+      attendeesSearch: value
+    }));
+  }, []);
+
+  const handleSearchTermChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchState(prev => ({
+      ...prev,
+      searchTerm: e.target.value
+    }));
+  }, []);
+
+  const handleDialogOpenChange = useCallback((open: boolean) => {
+    setSearchState(prev => ({
+      ...prev,
+      isDialogSearchOpen: open
+    }));
+  }, []);
 
   return (
     <div className="main-room-search-container w-full max-w-screen-xl mx-auto mb-1 md:mb-5 md:px-4">
@@ -125,11 +191,14 @@ export default function UserRoomCardSearch() {
             <LuSearch size={16} />
           </div>
 
-          <Dialog open={isDialogSearchOpen} onOpenChange={setIsDialogSearchOpen}>
+          <Dialog 
+            open={searchState.isDialogSearchOpen} 
+            onOpenChange={handleDialogOpenChange}
+          >
             <DialogTrigger asChild>
               <div className="min-w-24 py-2 px-3 hover:bg-[#e8ebef] hover:text-[#1e3a5f] rounded-lg transition-all duration-300">
                 <span className="text-base font-semibold">
-                  {searchValue ?? categoryValue}
+                  {searchState.searchValue ?? categoryValue}
                 </span>
               </div>
             </DialogTrigger>
@@ -146,8 +215,8 @@ export default function UserRoomCardSearch() {
                     icon={FiSearch}
                     defaultValue={""}
                     placeholder="Search by room name, building, location, etc."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
+                    value={searchState.searchTerm}
+                    onChange={handleSearchTermChange}
                     className="w-full"
                   />
 
@@ -160,6 +229,7 @@ export default function UserRoomCardSearch() {
                       An error occurred during search
                     </div>
                   )}
+
                   {searchData && searchData.length > 0 && (
                     <div className="mt-2 border rounded-md shadow-sm max-h-60 overflow-y-auto">
                       {searchData.map((item: SearchResult) => (
@@ -169,7 +239,7 @@ export default function UserRoomCardSearch() {
                             handleSelectItemSearch(
                               item.name, 
                               item.type,
-                              item.type === 'Room' || 'Building'  ? item.id : undefined
+                              item.type === 'Room' || item.type === 'Building' ? item.id : undefined
                             )
                           }
                           className="flex items-center p-2 hover:bg-gray-100 cursor-pointer"
@@ -205,8 +275,8 @@ export default function UserRoomCardSearch() {
             <DialogContent>
               <Calendar
                 mode="single"
-                selected={dateSearch}
-                onSelect={setDateSearch}
+                selected={searchState.dateSearch}
+                onSelect={handleDateSelect}
                 initialFocus
                 numberOfMonths={2}
                 disabled={(date) => date < new Date()}
@@ -221,11 +291,11 @@ export default function UserRoomCardSearch() {
           <Dialog>
             <DialogTrigger asChild>
               <div className="min-w-24 py-2 px-3 hover:bg-[#e8ebef] hover:text-[#1e3a5f] rounded-lg transition-all duration-300">
-                <span className="txt-base font-semibold">
-                  {attendeesSearch || attendees} Attendees
+                <span className="text-base font-semibold">
+                  {searchState.attendeesSearch || attendees} Attendees
                 </span>
               </div>
-              </DialogTrigger>
+            </DialogTrigger>
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>Number of Attendees</DialogTitle>
@@ -234,8 +304,8 @@ export default function UserRoomCardSearch() {
                 <input
                   type="number"
                   min="1"
-                  value={attendeesSearch}
-                  onChange={(e) => setAttendeesSearch(e.target.value)}
+                  value={searchState.attendeesSearch}
+                  onChange={(e) => handleAttendeesChange(e.target.value)}
                   className="w-full px-4 py-2 border rounded-md"
                 />
               </div>
@@ -245,9 +315,7 @@ export default function UserRoomCardSearch() {
         <div className="main-room-filter-button flex h-full items-center justify-center min-w-24 bg-[#e8ebef] rounded-md ml-auto text-[#1e3a5f]">
           <button
             className="text-base font-semibold"
-            onClick={() =>
-              handleSearch()
-            }
+            onClick={handleSearch}
           >
             Search
           </button>
@@ -276,7 +344,7 @@ export default function UserRoomCardSearch() {
 
           <button
             className="flex items-center gap-1 px-3 py-2 bg-[#e8ebef] text-[#1e3a5f] rounded-lg"
-            onClick={() => console.log('Open drawer')}
+            onClick={handleSearch}
           >
             <span className="text-xs font-semibold">Change</span>
           </button>

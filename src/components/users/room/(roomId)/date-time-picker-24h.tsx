@@ -27,10 +27,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { formatDateForQuery } from "@/lib/utils/dateUtils";
+
+interface DatePickerFormProps {
+  onBookingChange: (data: { dateBooking?: string; startTime?: string; endTime?: string }) => void;
+  initialData: any
+}
 
 // Define schema untuk validasi form
 const FormSchema = z.object({
-  dob: z.date({
+  date: z.date({
     required_error: "A date of birth is required.",
   }),
   startTime: z.date({
@@ -44,9 +50,10 @@ const FormSchema = z.object({
   path: ["endTime"],
 });
 
-export function DatePickerForm() {
+export function DatePickerForm({ onBookingChange, initialData }: DatePickerFormProps) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
+    defaultValues: initialData
   });
 
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
@@ -54,9 +61,23 @@ export function DatePickerForm() {
   const [endTime, setEndTime] = useState<string | undefined>();
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast.success(`Selected date: ${format(data.dob, "PPP")}, 
+    // onBookingChange({"date": format(data.date, "PPP")})
+    const formattedDate = selectedDate 
+      ? new Intl.DateTimeFormat("en-US", { 
+        weekday: 'short',
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric'
+      }).format(selectedDate)
+      : "";
+    console.log(formattedDate, "cokkkkk");
+    onBookingChange({"dateBooking": formattedDate});
+    
+    toast.success(`Selected date: ${format(data.date, "PPP")}, 
                   Start Time: ${format(data.startTime, "HH:mm")}, 
                   End Time: ${format(data.endTime, "HH:mm")}`);
+
+    
   }
 
   function handleTimeChange(time: string, type: "start" | "end") {
@@ -66,11 +87,14 @@ export function DatePickerForm() {
     if (type === "start") {
       setStartTime(time);
       form.setValue("startTime", newTime);
+      onBookingChange({ startTime: time });
     } else {
       setEndTime(time);
       form.setValue("endTime", newTime);
+      onBookingChange({ endTime: time });
     }
   }
+
 
   return (
     <Form {...form}>
@@ -79,7 +103,7 @@ export function DatePickerForm() {
           {/* Date Picker */}
           <FormField
             control={form.control}
-            name="dob"
+            name="date"
             render={({ field }) => (
               <FormItem className="flex flex-col">
                 <FormLabel>Select Date</FormLabel>
@@ -137,16 +161,16 @@ export function DatePickerForm() {
                         </SelectTrigger>
                         <SelectContent className="w-full">
                         <ScrollArea className="h-[15rem]">
-                            {Array.from({ length: 96 }).map((_, i) => {
-                            const hour = String(Math.floor(i / 4)).padStart(2, "0");
-                            const minute = String((i % 4) * 15).padStart(2, "0");
+                          {Array.from({ length: 48 }).map((_, i) => {
+                            const hour = String(Math.floor(i / 2)).padStart(2, "0");
+                            const minute = String((i % 2) * 30).padStart(2, "0");
                             const timeValue = `${hour}:${minute}`;
                             return (
-                                <SelectItem key={i} value={timeValue}>
+                              <SelectItem key={i} value={timeValue}>
                                 {timeValue}
-                                </SelectItem>
+                              </SelectItem>
                             );
-                            })}
+                          })}
                         </ScrollArea>
                         </SelectContent>
                     </Select>
@@ -173,16 +197,16 @@ export function DatePickerForm() {
                         </SelectTrigger>
                         <SelectContent className="w-full">
                         <ScrollArea className="h-[15rem]">
-                            {Array.from({ length: 96 }).map((_, i) => {
-                            const hour = String(Math.floor(i / 4)).padStart(2, "0");
-                            const minute = String((i % 4) * 15).padStart(2, "0");
+                          {Array.from({ length: 48 }).map((_, i) => {
+                            const hour = String(Math.floor(i / 2)).padStart(2, "0");
+                            const minute = String((i % 2) * 30).padStart(2, "0");
                             const timeValue = `${hour}:${minute}`;
                             return (
-                                <SelectItem key={i} value={timeValue}>
+                              <SelectItem key={i} value={timeValue}>
                                 {timeValue}
-                                </SelectItem>
+                              </SelectItem>
                             );
-                            })}
+                          })}
                         </ScrollArea>
                         </SelectContent>
                     </Select>

@@ -1,28 +1,30 @@
 "use client";
 
-import React, { CSSProperties, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Calendar } from "@/components/ui/calendar";
-import { MapPin, Calendar as CalendarIcon, Users, ChevronLeft, ChevronRight } from "lucide-react";
+import { MapPin, Calendar as CalendarIcon, Users } from "lucide-react";
 import { InputWithIcon } from '@/components/ui/input-with-icon';
 import { FiSearch } from 'react-icons/fi';
 import { useQuery } from '@tanstack/react-query';
 import { getGlobalSearch } from '@/lib/search/actions/get-global-search';
 import { useDebounce } from '@/hooks/use-debounce';
+import { SearchResult } from '@/types/search';
+
 
 const FilterCardForm = () => {
   const router = useRouter();
   const [searchValue, setSearchValue] = useState("South Jakarta");
-  const [searchCategory, setSearchCategory] = useState("city");
+  const [searchCategory, setSearchCategory] = useState("City");
+  const [selectedRoomId, setSelectedRoomId] = useState<string | null>(null);
   const [attendees, setAttendees] = useState("1");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [date, setDate] = React.useState<Date>();
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState('South Jakarta');
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
-  // Format untuk tampilan
   const formattedDate = date 
     ? new Intl.DateTimeFormat("id-ID", { 
         day: 'numeric',
@@ -47,28 +49,62 @@ const FilterCardForm = () => {
     refetchOnWindowFocus: false
   });
 
-  const handleSelectItemSearch = (selectedSearch: string, categoryType: string) => {
+  const handleSelectItemSearch = (selectedSearch: string, categoryType: string, roomId?: string) => {
     setSearchValue(selectedSearch);
     setSearchCategory(categoryType.toLowerCase());
     setIsDialogOpen(false);
+
+    if (categoryType.toLowerCase() && roomId) {
+      setSelectedRoomId(roomId);
+    } else {
+      setSelectedRoomId(null);
+    }
   };
+
+  // const handleSearch = () => {
+  //   const queryParams = new URLSearchParams();
+
+  //   if (attendees) {
+  //     queryParams.append('attendees', attendees);
+  //   }
+
+  //   if (date) {
+  //     queryParams.append('date', formatDateForQuery(date));
+  //   }
+
+  //   if (searchCategory === 'room' && selectedRoomId) {
+  //     router.push(`/room/${selectedRoomId}?${queryParams.toString()}`);
+  //   } else {
+  //     if (searchCategory && searchValue) {
+  //       queryParams.append(searchCategory, searchValue);
+  //     }
+
+  //     router.push(`/room/search?${queryParams.toString()}`);
+  //   }
+  // };
 
   const handleSearch = () => {
     const queryParams = new URLSearchParams();
-    
-    if (searchCategory && searchValue) {
-      queryParams.append(searchCategory, searchValue);
-    }
-    
+
     if (attendees) {
       queryParams.append('attendees', attendees);
     }
-    
+
     if (date) {
       queryParams.append('date', formatDateForQuery(date));
     }
 
-    router.push(`/room/search?${queryParams.toString()}`);
+    if (searchCategory === 'room' && selectedRoomId) {
+      router.push(`/room/${selectedRoomId}?${queryParams.toString()}`);
+    } else if(searchCategory === "building"){
+      router.push(`/room/search?building=${searchValue}&${queryParams.toString()}`);
+    }
+    else {
+      if (searchCategory && searchValue) {
+        queryParams.append(searchCategory, searchValue);
+      }
+      router.push(`/room/search?${queryParams.toString()}`);
+    }
   };
 
   return (
@@ -93,6 +129,7 @@ const FilterCardForm = () => {
             <div className="sticky top-0 px-4 pt-2 pb-4 bg-white">
               <InputWithIcon
                 icon={FiSearch}
+                defaultValue={""}
                 placeholder="Search by room name, building, location, etc."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -108,13 +145,18 @@ const FilterCardForm = () => {
                   An error occurred during search
                 </div>
               )}
-
               {data && data.length > 0 && (
                 <div className="mt-2 border rounded-md shadow-sm max-h-60 overflow-y-auto">
-                  {data.map((item: any) => (
+                  {data.map((item: SearchResult) => (
                     <div
                       key={item.id}
-                      onClick={() => handleSelectItemSearch(item.name, item.type)}
+                      onClick={() =>
+                        handleSelectItemSearch(
+                          item.name, 
+                          item.type,
+                          item.type === 'Room' || 'Building'  ? item.id : undefined
+                        )
+                      }
                       className="flex items-center p-2 hover:bg-gray-100 cursor-pointer"
                     >
                       <FiSearch className="mr-3 text-gray-500" size={20} />

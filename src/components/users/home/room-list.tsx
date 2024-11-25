@@ -14,18 +14,6 @@ export function RoomList({ floor }: RoomListProps) {
 
     return (
         <div className="w-full">
-            {/* Grid layout untuk layar besar (4 kolom) */}
-            {/* <div className="hidden lg:grid lg:grid-cols-4 gap-6">
-                {rooms?.map((room) => (
-                    <RoomCard key={room.id} room={room} isVertical={true} />
-                ))}
-            </div> */}
-            {/* Carousel layout untuk layar kecil */}
-            {/* <div className="hidden lg:grid lg:grid-cols-2 gap-6">
-                {rooms?.map((room) => (
-                        <RoomCard room={room} isVertical={true} />
-                ))}
-            </div> */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {rooms?.map((room) => (
                     <RoomCard key={room.floorId} room={room} isVertical={true} />

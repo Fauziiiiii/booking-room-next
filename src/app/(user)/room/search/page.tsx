@@ -4,13 +4,13 @@ import { useEffect, useState } from 'react';
 import UserRoomCardFilter from '@/components/users/room/user-room-card-filter';
 import UserRoomCardSearch from '@/components/users/room/user-room-card-search';
 import UserRoomMainContent from '@/components/users/room/user-room-main-content';
-import { useSearchParams } from 'next/navigation';
+// import { useSearchParams } from 'next/navigation';
 
 const UserRoomSearchPage = () => {
     const [isSticky, setIsSticky] = useState(false);
-    const searchParams = useSearchParams();
+    // const searchParams = useSearchParams();
 
-    const city = searchParams.get("city");
+    // const city = searchParams.get("city");
 
     useEffect(() => {
         const handleScroll = () => {
