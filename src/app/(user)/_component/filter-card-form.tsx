@@ -187,13 +187,22 @@ const FilterCardForm = () => {
               </div>
             </Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className='p-2 w-full'>
             <Calendar
               mode="single"
               selected={date}
               onSelect={setDate}
+              numberOfMonths={2}
               initialFocus
               disabled={(date) => date < new Date()}
+              className="h-full w-full flex"
+                classNames={{
+                  months: "flex w-full flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0 flex-1",
+                  month: "space-y-4 w-full flex flex-col",
+                  table: "w-full h-full border-collapse space-y-1",
+                  head_row: "",
+                  row: "mt-2",
+                }}
             />
           </DialogContent>
         </Dialog>
