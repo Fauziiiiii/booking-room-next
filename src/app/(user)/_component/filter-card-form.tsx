@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import React, { useState } from 'react';
 import { useRouter } from "next/navigation";
@@ -60,29 +60,7 @@ const FilterCardForm = () => {
       setSelectedRoomId(null);
     }
   };
-
-  // const handleSearch = () => {
-  //   const queryParams = new URLSearchParams();
-
-  //   if (attendees) {
-  //     queryParams.append('attendees', attendees);
-  //   }
-
-  //   if (date) {
-  //     queryParams.append('date', formatDateForQuery(date));
-  //   }
-
-  //   if (searchCategory === 'room' && selectedRoomId) {
-  //     router.push(`/room/${selectedRoomId}?${queryParams.toString()}`);
-  //   } else {
-  //     if (searchCategory && searchValue) {
-  //       queryParams.append(searchCategory, searchValue);
-  //     }
-
-  //     router.push(`/room/search?${queryParams.toString()}`);
-  //   }
-  // };
-
+  
   const handleSearch = () => {
     const queryParams = new URLSearchParams();
 

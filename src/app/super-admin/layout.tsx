@@ -23,7 +23,7 @@ export default function SuperAdminLayout({
   }>) {
     return (
       <SidebarProvider>
-        <AppSidebar />
+        <AppSidebar role="Super Admin"/>
         <SidebarInset>
           <header className="flex h-14 lg:h-[55px] items-center gap-4 px-3 fixed top-0 w-full z-40">
             <div className="flex items-center gap-2 px-4">

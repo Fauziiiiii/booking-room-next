@@ -1,16 +1,3 @@
-// /* eslint-disable @typescript-eslint/no-explicit-any */
-// // LocationDetails.js
-// export function LocationDetails({ mapSrc, address }: any) {
-//     return (
-//       <div className="container-location">
-//         <iframe src={mapSrc} className="map" loading="lazy"></iframe>
-//         <div className="address">{address}</div>
-//       </div>
-//     );
-//   }
-  
-
-
 import React from 'react'
 
 export default function RoomLocation() {

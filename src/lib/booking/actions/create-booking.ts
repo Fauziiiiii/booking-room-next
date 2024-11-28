@@ -1,7 +1,6 @@
 "use server"
 
 import { baseApi } from "@/lib/api/endpoint"
-import { Room } from "@/types/room"
 import { CreateBookingDto } from "../dto/create-booking-dto"
 import { Booking } from "@/types/booking"
 

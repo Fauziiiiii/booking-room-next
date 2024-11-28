@@ -98,6 +98,8 @@
 // }
 
 
+"use client"
+
 import {
   Cloud,
   CreditCard,
@@ -105,45 +107,33 @@ import {
   Keyboard,
   LifeBuoy,
   LogOut,
-  LucideUserPlus,
-  Mail,
-  MessageSquare,
   MonitorCog,
-  Plus,
-  PlusCircle,
   Settings,
   User,
   UserCog,
-  UserPlus,
-  UserPlus2,
-  UserPlusIcon,
   Users,
 } from "lucide-react"
 
-import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Link from "next/link"
+import { logout } from "@/app/(auth)/sign-in/actions"
 
 export const NavUser = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Avatar className="h-10 w-10 rounded-full">
-          <AvatarImage src={"https://github.com/shadcn.png"} alt={"CN"} />
+          <AvatarImage loading="lazy" src={"https://github.com/shadcn.png"} alt={"CN"} />
           <AvatarFallback className="rounded-lg">CN</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
@@ -189,29 +179,6 @@ export const NavUser = () => {
             <Users />
             <span>Team</span>
           </DropdownMenuItem>
-          {/* <DropdownMenuSub>
-            <DropdownMenuSubTrigger>
-              <LucideUserPlus/>
-              <span>Invite users</span>
-            </DropdownMenuSubTrigger>
-            <DropdownMenuPortal>
-              <DropdownMenuSubContent>
-                <DropdownMenuItem>
-                  <Mail />
-                  <span>Email</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <MessageSquare />
-                  <span>Message</span>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <PlusCircle />
-                  <span>More...</span>
-                </DropdownMenuItem>
-              </DropdownMenuSubContent>
-            </DropdownMenuPortal>
-          </DropdownMenuSub> */}
           <DropdownMenuItem asChild>
             <Link href={"/admin/dashboard"}>
               <UserCog />
@@ -241,10 +208,9 @@ export const NavUser = () => {
           <span>API</span>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={() => logout()}>
           <LogOut />
-          <span>Log out</span>
-          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+          Log out
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
