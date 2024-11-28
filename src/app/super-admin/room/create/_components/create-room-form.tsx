@@ -6,20 +6,20 @@ import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
+    Form,
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
 } from "@/components/ui/form";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
@@ -27,7 +27,6 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { useCreateRoom } from "@/lib/room/hooks/useCreateRoom";
 import { Floor } from "@/types/floor";
-import { Textarea } from "@/components/ui/textarea";
 import { Building } from "@/types/building";
 import { AutosizeTextarea } from "@/components/ui/auto-size-text-area";
 

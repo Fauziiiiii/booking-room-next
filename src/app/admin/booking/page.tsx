@@ -1,10 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
 import { useState } from "react"
 import Calendar from "react-calendar"
 import 'react-calendar/dist/Calendar.css'
 import {
-  ColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable,

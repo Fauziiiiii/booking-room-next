@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import BookingSummaryCard from "./_components/user-booking-summary-card";
 import { InputCustom } from "@/components/ui/input-custom";
@@ -15,10 +14,9 @@ import { z } from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCreateBooking } from "@/lib/booking/hooks/useCreateBooking";
-import { Booking } from "@/types/booking";
 import { CreateBookingDto } from "@/lib/booking/dto/create-booking-dto";
-import { convertToUtcForID, convertToUtcFormat, convertToUTCForTimeSpan } from "@/lib/utils/dateUtils";
-import { format } from "path";
+import { convertToUtcForID, convertToUTCForTimeSpan } from "@/lib/utils/dateUtils";
+import { InvalidBookingPage } from "./_components/user-invalid-booking-page";
 
 const bookingSchema = z.object({
   meetingName: z.string().min(5, "Meeting Name must be at least 5 characters"),
@@ -33,6 +31,21 @@ export default function BookingPage() {
   const { mutate, isPending } = useCreateBooking()
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [isInvalidRoomModalOpen, setIsInvalidRoomModalOpen] = React.useState(false);
+
+  const validateRoomId = (roomId: string | null) => {
+    // Check if roomId is null or doesn't match the expected UUID format
+    if (!roomId || !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(roomId)) {
+      setIsInvalidRoomModalOpen(true);
+      return false;
+    }
+    return true;
+  };
+
+  React.useEffect(() => {
+    const roomId = searchParams.get("roomId");
+    validateRoomId(roomId);
+  }, [searchParams]);
 
   const userId = "f3e54abe-0a7f-401c-9812-a17fc01b15a6";
   const roomId = searchParams.get("roomId");
@@ -54,40 +67,6 @@ export default function BookingPage() {
       userEmail: "fauziii7798@gmail.com",
     }
   });
-
-  // console.log(formattedBookingDate);
-  // console.log(formattedStartTime);
-  // console.log(formattedEndTime);
-
-  // const onSubmit = async (values: BookingFormData) => {
-  //   console.log(values)
-  //   try{
-  //     const bookingData: CreateBookingDto = {
-  //       ...values,
-  //       userId,
-  //       roomId: roomId || "",
-  //       bookingDate: formattedBookingDate,
-  //       startTime: formattedStartTime,
-  //       endTime: formattedEndTime,
-  //     };
-      
-  //     console.log("itel cok submit")
-
-  //     mutate(bookingData, {
-  //       onSuccess: () => {
-  //         reset();
-  //         return toast.success("Booking success for your order");
-  //       },
-  //       onError: (error) => {
-  //           console.error("error create booking cik", error)
-  //           return toast.error("Some error while creating booking")
-  //       }
-  //     });
-  //   } catch(err) {
-  //     console.log("sudah error banget", err)
-  //     return toast.error("Error geden cikk")
-  //   }
-  // }
 
   const onSubmit = async (values: BookingFormData) => {
     try {
@@ -126,7 +105,7 @@ export default function BookingPage() {
       return toast.error("An error occurred");
     }
   };
-  
+
   const copyToClipboard = () => {
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard
@@ -149,6 +128,10 @@ export default function BookingPage() {
 
   return (
     <div className="w-full h-full bg-slate-50 py-6">
+      <InvalidBookingPage
+        isOpen={isInvalidRoomModalOpen}
+        onClose={() => setIsInvalidRoomModalOpen(false)}
+      />
       <form onSubmit={handleSubmit(onSubmit)}>
         <main className="container mx-auto max-w-screen-xl px-4 flex flex-col md:flex-row gap-6">
           {/* Summary Card for md and below */}
@@ -269,7 +252,7 @@ export default function BookingPage() {
             <button
               type="submit"
               className={`hidden md:flex w-full text-white font-semibold py-3 rounded-full text-center justify-center ${
-                isPending ? "bg-blue-400 cursor-not-allowed" : "bg-blue-600"
+                isPending ? "bg-teal-400 cursor-not-allowed" : "bg-teal-600"
               }`}
               disabled={isPending}
             >

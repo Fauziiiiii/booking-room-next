@@ -14,7 +14,7 @@ export const getByIdRoom = async (idRoom: string): Promise<RoomQuery> => {
     }
 }
 
-export const getByIdRoomWithBookingDate = async (idRoom: string, bookingDate: string): Promise<RoomQuery> => {
+export const getCheckRoomAvailability = async (idRoom: string, bookingDate: string): Promise<RoomQuery> => {
     try {
         // await new Promise(resolve => setTimeout(resolve, 1500));
         const result = await baseApi.get(`/api/rooms/${idRoom}?bookingDate=${bookingDate}`);

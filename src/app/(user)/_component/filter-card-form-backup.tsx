@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
 import React, { CSSProperties, useRef, useState } from 'react';
@@ -7,7 +9,6 @@ import { Calendar } from "@/components/ui/calendar";
 import { MapPin, Calendar as CalendarIcon, Users, ChevronLeft, ChevronRight } from "lucide-react";
 import { InputWithIcon } from '@/components/ui/input-with-icon';
 import { FiSearch } from 'react-icons/fi';
-import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { getGlobalSearch } from '@/lib/search/actions/get-global-search';
 import { useDebounce } from '@/hooks/use-debounce';
@@ -260,7 +261,7 @@ const FilterCardForm = () => {
       </div>
 
       <Button className="w-full h-12 bg-blue-500 hover:bg-blue-600 text-white" onClick={() => handleSearch()}>
-        Let's Search
+        Let&apos;s Search
       </Button>
     </div>
   );

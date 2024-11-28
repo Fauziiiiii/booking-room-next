@@ -9,8 +9,6 @@ import BreadcrumbDemo from '@/components/ui/breadcrumb-demo';
 export default function UserDetailRoomImage() {
     const images = [listRoomImage2, listRoomImage3, listRoomImage4, listRoomImage5];
     const isMoreImages = images.length > 3;
-
-
     return (
         <>
         <div className="flex-col gap-1 px-4 w-full max-w-screen-xl mx-auto hidden md:flex">

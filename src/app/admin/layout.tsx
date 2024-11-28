@@ -1,12 +1,19 @@
-import { AppSidebar } from "@/components/app-sidebar"
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
-import { Separator } from "@/components/ui/separator"
-import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+import { AppSidebar } from "@/components/app-sidebar";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
+import { Separator } from "@/components/ui/separator";
+import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+export default async function AdminLayout({ children }: { children: React.ReactNode }) {
+  // const token = cookies().get("accessToken")?.value;
+
+  // const role = token ? await getRoleFromToken(token) : null;
+
+  // const sidebarRole = role === "Super Admin" ? "Super Admin" : "Admin";
+  // console.log("cok jarannann bedes", token);
+
   return (
     <SidebarProvider>
-      <AppSidebar />
+      <AppSidebar role={"Admin"} />
       <SidebarInset>
         <header className="flex h-16 shrink-0 items-center gap-2">
           <div className="flex items-center gap-2 px-4">
@@ -30,5 +37,5 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </div>
       </SidebarInset>
     </SidebarProvider>
-  )
+  );
 }

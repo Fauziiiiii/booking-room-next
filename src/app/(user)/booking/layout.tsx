@@ -20,7 +20,7 @@ export default function UserBookingLayout({
       {/* Sticky Confirm Button (Mobile Only) */}
       <div className="sticky bottom-0 w-full md:hidden bg-white shadow-md py-3 px-4">
         <button
-          className="w-full bg-blue-600 text-white font-semibold py-3 rounded-full"
+          className="w-full bg-teal-600 text-white font-semibold py-3 rounded-full"
           onClick={() => toast.success("Booking confirmed!")}
         >
           Confirm Booking

@@ -1,49 +1,30 @@
 "use client"
 
-import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { Calendar } from "@/components/ui/calendar";
-import { DateRange } from "react-day-picker";
 import { Button } from "@/components/ui/button";
-import { Download, Filter } from "lucide-react";
+import { Download } from "lucide-react";
 
 export default function AnalyticsDashboardPage() {
-  const [dateRange, setDateRange] = useState<DateRange | undefined>();
-
-  // Sample data - replace with actual API calls
   const bookingData = [
     { month: 'Jan', totalBookings: 120, completedBookings: 100, cancelledBookings: 20 },
     { month: 'Feb', totalBookings: 150, completedBookings: 130, cancelledBookings: 20 },
-    // Add more months...
   ];
 
   const spaceUtilization = [
     { space: 'Meeting Room A', utilization: 75, revenue: 15000 },
     { space: 'Conference Hall', utilization: 60, revenue: 25000 },
-    // Add more spaces...
   ];
 
   return (
     <div className="space-y-6">
-      {/* Filters Section */}
       <div className="flex flex-wrap gap-4 items-center justify-between">
-        <div className="flex gap-4 items-center">
-          <Calendar
-            mode="range"
-            selected={dateRange}
-            onSelect={setDateRange}
-            className="rounded-md border"
-          />
-          <Button variant="outline" size="icon">
-            <Filter className="h-4 w-4" />
-          </Button>
-        </div>
         <Button>
           <Download className="mr-2 h-4 w-4" />
           Export Report
         </Button>
+        
       </div>
 
       {/* Summary Cards */}

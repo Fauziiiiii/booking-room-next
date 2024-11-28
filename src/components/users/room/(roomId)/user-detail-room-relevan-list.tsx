@@ -5,13 +5,18 @@ import { useGetAllRoomByIdFloorWithLimit } from '@/lib/room/hooks/useGetAllRoomB
 import React from 'react'
 import UserDetailRoomCard from './user-detail-room-card-list'
 
-export default function RoomRelevanList() {
-    const { data: rooms, isLoading } = useGetAllRoomByIdFloorWithLimit("a18018a2-3081-40c8-9854-8ef52519fc9b", 5)
+interface RoomRelevanProps {
+    title: string | null
+    floorId: string | null
+}
+
+export default function RoomRelevanList({ title, floorId }: RoomRelevanProps) {
+    const { data: rooms, isLoading } = useGetAllRoomByIdFloorWithLimit(floorId ?? "", 5)
     return (
         <div className="container-list-relevan-room pb-4                                                ">
             <div className="flex flex-col gap-4 max-w-screen-xl mx-auto md:px-4">
                 <div className="mx-4">
-                    <h2 className="text-xl font-semibold mb-2">Similar room around Ascor Sudirman Jakarta</h2>
+                    <h2 className="text-xl font-semibold mb-2">Similar room around {title}</h2>
                 </div>
                 {isLoading ? <LoadingUserHomePage /> : ""}
 

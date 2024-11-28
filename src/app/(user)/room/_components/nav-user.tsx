@@ -1,102 +1,4 @@
-// "use client"
-
-// import {
-//     BadgeCheck,
-//     Bell,
-//     ChevronsUpDown,
-//     CreditCard,
-//     LogOut,
-//     Sparkles,
-//   } from "lucide-react"
-  
-//   import {
-//     Avatar,
-//     AvatarFallback,
-//     AvatarImage,
-//   } from "@/components/ui/avatar"
-//   import {
-//     DropdownMenu,
-//     DropdownMenuContent,
-//     DropdownMenuGroup,
-//     DropdownMenuItem,
-//     DropdownMenuLabel,
-//     DropdownMenuSeparator,
-//     DropdownMenuTrigger,
-//   } from "@/components/ui/dropdown-menu"
-//   import {
-//     SidebarMenuButton,
-//   } from "@/components/ui/sidebar"
-//   import { logout } from "@/app/(auth)/sign-in/actions"
-// import { Button } from "@/components/ui/button"
-
-// export default function NavUser() {
-//   return (
-//     <DropdownMenu>
-//       <DropdownMenuTrigger asChild>
-//         <Button
-//           size="lg"
-//           variant={"ghost"}
-//         >
-          // <Avatar className="h-8 w-8 rounded-lg">
-          //   <AvatarImage src={"https://github.com/shadcn.png"} alt={"CN"} />
-          //   <AvatarFallback className="rounded-lg">CN</AvatarFallback>
-          // </Avatar>
-//           {/* <div className="grid flex-1 text-left text-sm leading-tight max-sm:hidden">
-//             <span className="truncate font-semibold">{"Shadcn"}</span>
-//             <span className="truncate text-xs">{"m@example.com"}</span>
-//           </div>
-//           <ChevronsUpDown className="ml-auto size-4" /> */}
-//         </Button>
-//       </DropdownMenuTrigger>
-//       <DropdownMenuContent
-//         className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
-//         align="end"
-//         sideOffset={4}
-//       >
-//         <DropdownMenuLabel className="p-0 font-normal">
-//           <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-//             <Avatar className="h-8 w-8 rounded-lg">
-//               <AvatarImage src={"https://github.com/shadcn.png"} alt={"Shadcn"} />
-//               <AvatarFallback className="rounded-lg">CN</AvatarFallback>
-//             </Avatar>
-//             <div className="grid flex-1 text-left text-sm leading-tight">
-//               <span className="truncate font-semibold">{"Shadcn"}</span>
-//               <span className="truncate text-xs">{"m@example.com"}</span>
-//             </div>
-//           </div>
-//         </DropdownMenuLabel>
-//         <DropdownMenuSeparator />
-//         <DropdownMenuGroup>
-//           <DropdownMenuItem>
-//             <Sparkles />
-//             Upgrade to Pro
-//           </DropdownMenuItem>
-//         </DropdownMenuGroup>
-//         <DropdownMenuSeparator />
-//         <DropdownMenuGroup>
-//           <DropdownMenuItem>
-//             <BadgeCheck />
-//             Account
-//           </DropdownMenuItem>
-//           <DropdownMenuItem>
-//             <CreditCard />
-//             Billing
-//           </DropdownMenuItem>
-//           <DropdownMenuItem>
-//             <Bell />
-//             Notifications
-//           </DropdownMenuItem>
-//         </DropdownMenuGroup>
-//         <DropdownMenuSeparator />
-//         <DropdownMenuItem onClick={() => logout()}>
-//           <LogOut />
-//           Log out
-//         </DropdownMenuItem>
-//       </DropdownMenuContent>
-//     </DropdownMenu>
-//   )
-// }
-
+"use client"
 
 import {
   Cloud,
@@ -105,38 +7,26 @@ import {
   Keyboard,
   LifeBuoy,
   LogOut,
-  LucideUserPlus,
-  Mail,
-  MessageSquare,
   MonitorCog,
-  Plus,
-  PlusCircle,
   Settings,
   User,
   UserCog,
-  UserPlus,
-  UserPlus2,
-  UserPlusIcon,
   Users,
 } from "lucide-react"
 
-import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Link from "next/link"
+import { logout } from "@/app/(auth)/sign-in/actions"
 
 export const NavUser = () => {
   return (
@@ -189,29 +79,6 @@ export const NavUser = () => {
             <Users />
             <span>Team</span>
           </DropdownMenuItem>
-          {/* <DropdownMenuSub>
-            <DropdownMenuSubTrigger>
-              <LucideUserPlus/>
-              <span>Invite users</span>
-            </DropdownMenuSubTrigger>
-            <DropdownMenuPortal>
-              <DropdownMenuSubContent>
-                <DropdownMenuItem>
-                  <Mail />
-                  <span>Email</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <MessageSquare />
-                  <span>Message</span>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <PlusCircle />
-                  <span>More...</span>
-                </DropdownMenuItem>
-              </DropdownMenuSubContent>
-            </DropdownMenuPortal>
-          </DropdownMenuSub> */}
           <DropdownMenuItem asChild>
             <Link href={"/admin/dashboard"}>
               <UserCog />
@@ -241,10 +108,9 @@ export const NavUser = () => {
           <span>API</span>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={() => logout()}>
           <LogOut />
-          <span>Log out</span>
-          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+          Log out
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

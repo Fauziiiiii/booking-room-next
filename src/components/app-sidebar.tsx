@@ -8,11 +8,9 @@ import {
   Building,
   Calendar,
   Command,
-  Frame,
   GalleryVerticalEnd,
   LucideBuilding2,
   LucideHousePlus,
-  Map,
   PieChart,
   Settings,
   Settings2,
@@ -21,7 +19,6 @@ import {
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
-import { NavProjects } from "@/components/nav-projects"
 import { NavUser } from "@/components/nav-user"
 import { TeamSwitcher } from "@/components/team-switcher"
 import {
@@ -173,10 +170,6 @@ const data = {
           title: "All Company",
           url: "/super-admin/company",
         },
-        // {
-        //   title: "Floors",
-        //   url: "/super-admin/floor",
-        // },
       ],
     },
     {
@@ -244,39 +237,108 @@ const data = {
       ],
     },
   ],
-  projects: [
+  admin: [
     {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
+      title: "Dashboard",
+      url: "/super-admin/dashboard",
       icon: PieChart,
+      isActive: true,
     },
     {
-      name: "Travel",
+      title: "User Management",
       url: "#",
-      icon: Map,
+      icon: Users,
+      items: [
+        {
+          title: "All Users",
+          url: "/admin/user",
+        },
+      ],
+    },
+    {
+      title: "Room Management",
+      url: "#",
+      icon: LucideHousePlus,
+      items: [
+        {
+          title: "All Rooms",
+          url: "/admin/room",
+        },
+        {
+          title: "Facilities",
+          url: "/admin/facilities",
+        },
+      ],
+    },
+    {
+      title: "Booking Management",
+      url: "#",
+      icon: Calendar,
+      items: [
+        {
+          title: "All Bookings",
+          url: "/admin/bookings",
+        },
+        {
+          title: "Reports",
+          url: "/admin/reports",
+        },
+      ],
+    },
+    {
+      title: "Settings",
+      url: "#",
+      icon: Settings,
+      items: [
+        {
+          title: "General",
+          url: "/admin/settings/general",
+        },
+        {
+          title: "Security",
+          url: "/admin/settings/security",
+        },
+      ],
     },
   ],
+  // projects: [
+  //   {
+  //     name: "Design Engineering",
+  //     url: "#",
+  //     icon: Frame,
+  //   },
+  //   {
+  //     name: "Sales & Marketing",
+  //     url: "#",
+  //     icon: PieChart,
+  //   },
+  //   {
+  //     name: "Travel",
+  //     url: "#",
+  //     icon: Map,
+  //   },
+  // ],
 }
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({
+  role,
+  ...props
+}: React.ComponentProps<typeof Sidebar> & { role: "Admin" | "Super Admin" }) {
+  const navItems = role === "Super Admin" ? data.superAdmin : data.admin;
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.superAdmin} />
-        <NavProjects projects={data.projects} />
+        <NavMain items={navItems} />
+        {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
-  )
+  );
 }
